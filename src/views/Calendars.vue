@@ -21,6 +21,9 @@
             <th>
               Dodaj do planera
             </th>
+            <th>
+              Usuń kalendarz
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -48,6 +51,9 @@
             <td>
               <v-checkbox v-model="selectedCalendars" :value="calendar" @change="updateFreeTime">
               </v-checkbox>
+            </td>
+            <td>
+              <v-btn text @click="deleteCalendar(calendar.id)">Usuń</v-btn>
             </td>
           </tr>
           </tbody>
@@ -85,16 +91,19 @@ export default {
       };
 
       this.selectedCalendars.forEach((cal) => body.calendarIds.push(cal.id));
-      axios.post('http://localhost:8081/api/v1/calendars/common', body).then((response) => {
+      axios.post('/api/v1/calendars/common', body).then((response) => {
         this.freeMeetingTime = response.data;
       });
     },
     getTimeString(hour, minutes) {
       return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     },
+    deleteCalendar(id) {
+      axios.delete(`api/v1/calendars/${id}`).then(() => this.$router.go());
+    },
   },
   beforeCreate() {
-    axios.get('http://localhost:8081/api/v1/calendars')
+    axios.get('/api/v1/calendars')
       .then((response) => {
         response.data.forEach((calendar) => {
           this.calendars.push(calendar);
