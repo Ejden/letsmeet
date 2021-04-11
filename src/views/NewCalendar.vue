@@ -161,7 +161,7 @@ export default {
 
       axios.post('http://localhost:8081/api/v1/calendars', data).then((reponse) => {
         if (reponse.status === 201) {
-          this.$router.push('/calendars');
+          this.$router.push('/');
         }
       });
     },

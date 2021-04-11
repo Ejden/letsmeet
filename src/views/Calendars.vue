@@ -10,13 +10,16 @@
               Id
             </td>
             <th class="text-left">
-              Start
+              Początek
             </th>
             <th class="text-left">
-              End
+              Koniec
+            </th>
+            <th class="text-left">
+              Zaplanowane spotkania
             </th>
             <th>
-              add
+              Dodaj do planera
             </th>
           </tr>
           </thead>
@@ -35,6 +38,14 @@
               {{ getTimeString(calendar.workingHours.end.hour, calendar.workingHours.end.minutes) }}
             </td>
             <td>
+              <ul>
+                <li :key="i" v-for="(meeting, i) in calendar.plannedMeetings">
+                  Od: {{ getTimeString(meeting.start.hour, meeting.start.minutes) }}
+                  Do: {{ getTimeString(meeting.end.hour, meeting.end.minutes) }}
+                </li>
+              </ul>
+            </td>
+            <td>
               <v-checkbox v-model="selectedCalendars" :value="calendar" @change="updateFreeTime">
               </v-checkbox>
             </td>
@@ -46,8 +57,9 @@
       <div>
         <h3>Wolne okna czasowe:</h3>
         <li :key="i" v-for="(item,i) in freeMeetingTime">
-          Od: {{getTimeString(item.startTime.hour, item.startTime.minutes)}}
-          Do: {{getTimeString(item.endTime.hour, item.endTime.minutes)}}</li>
+          Od: {{ getTimeString(item.startTime.hour, item.startTime.minutes) }}
+          Do: {{ getTimeString(item.endTime.hour, item.endTime.minutes) }}
+        </li>
       </div>
     </div>
   </v-container>
