@@ -61,6 +61,15 @@
       </v-simple-table>
 
       <div>
+        <v-text-field
+          type="number"
+          label="Oczekiwany czas spotkania"
+          suffix="min"
+          style="width: 300px"
+          v-model="meetingTime"
+          :rules="[() => meetingTime > 0]"
+          @change="updateFreeTime"
+        ></v-text-field>
         <h3>Wolne okna czasowe:</h3>
         <li :key="i" v-for="(item,i) in freeMeetingTime">
           Od: {{ getTimeString(item.startTime.hour, item.startTime.minutes) }}
@@ -85,6 +94,10 @@ export default {
   }),
   methods: {
     updateFreeTime() {
+      if (this.meetingTime <= 0) {
+        this.freeMeetingTime = [];
+        return;
+      }
       const body = {
         calendarIds: [],
         meetingTime: this.meetingTime,
